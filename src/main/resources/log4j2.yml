@@ -16,8 +16,8 @@ Configuration:
             PatternLayout:
                 pattern: '%d{yyyy-MM-dd HH:mm:ss.SSSZ a} [%t] [%-5level] %c{1} - %msg%n'
             name: RollingFile
-            fileName: /var/log/spring/logs/spring-boot-log4j2-sample.log
-            filePattern: '/var/log/spring/logs/archive/spring-boot-log4j2-sample-%d{yyyy-MM-dd-hh-mm-ss}.log.gz'
+            fileName: /var/log/spring/spring-boot-log4j2-sample.log
+            filePattern: '/var/log/spring/archive/spring-boot-log4j2-sample-%d{yyyy-MM-dd-hh-mm-ss}.log.gz'
             Policies:
                 SizeBasedTriggeringPolicy:
                     size: 5KB # KB, MB, GB
@@ -44,7 +44,7 @@ Configuration:
         Root:
             AppenderRef:
                 - ref: Console
-                - ref: File
+#                - ref: File
                 - ref: RollingFile
                 - ref: Mail
             level: info
