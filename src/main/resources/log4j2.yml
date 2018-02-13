@@ -1,0 +1,50 @@
+#https://logging.apache.org/log4j/2.x/manual/appenders.html
+Configuration:
+    Appenders:
+        Console:
+            PatternLayout:
+#                pattern: '%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %c{1}.%M(%F{5}:%L) - %msg%n' # With line number
+                pattern: '%d{yyyy-MM-dd HH:mm:ss.SSSZ a} [%t] [%-5level] %c{1} - %msg%n'
+            name: Console
+            target: SYSTEM_OUT
+#        File:
+#            PatternLayout:
+#                pattern: '<FILE> %d{yyyy-MMM-dd HH:mm:ss.sssZ} [%t] %-5level %logger{36} - %msg%n'
+#            name: File
+#            fileName: /var/log/spring/microservices/spring-boot-log4j2-sample.log
+        RollingFile:
+            PatternLayout:
+                pattern: '%d{yyyy-MM-dd HH:mm:ss.SSSZ a} [%t] [%-5level] %c{1} - %msg%n'
+            name: RollingFile
+            fileName: /var/log/spring/logs/spring-boot-log4j2-sample.log
+            filePattern: '/var/log/spring/logs/archive/spring-boot-log4j2-sample-%d{yyyy-MM-dd-hh-mm-ss}.log.gz'
+            Policies:
+                SizeBasedTriggeringPolicy:
+                    size: 5KB # KB, MB, GB
+            DefaultRollOverStrategy:
+                max: 30
+                compressionLevel: 7
+        SMTP:
+            name: Mail
+            subject: 'Log4J2 Demo'
+            to: youremail@example.com
+            from: 'Log4J2 Reporter <error-reporter@example.com>'
+            smtpHost: smtp.gmail.com
+            smtpPort: 465
+            smtpUsername: error-reporter@example.com
+            smtpPassword: errorreporterpassword
+            smtpProtocol: smtps # smtp or smtps (smtp will give google server to not connect - smtps means SMTP Secured)
+            PatternLayout:
+                pattern: '%d{yyyy-MM-dd HH:mm:ss.SSSZ a} [%t] [%-5level] %c{5} - %msg%n'
+            ThresholdFilter:
+                level: error
+                onMatch: ACCEPT
+                onMismatch: DENY
+    Loggers:
+        Root:
+            AppenderRef:
+                - ref: Console
+                - ref: File
+                - ref: RollingFile
+                - ref: Mail
+            level: info
